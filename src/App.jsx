@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import Login from './assets/pages/Login'
+import Login from './pages/Login'
+import Home from './pages/Home'
+import CertificationVerify from './pages/Certification'
 
 import './output.css'
 
@@ -7,7 +9,7 @@ function App() {
   
 
   return (
-    <Login ></Login>
+    <CertificationVerify/>
   )
 }
 

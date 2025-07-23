@@ -2,10 +2,13 @@ import { Form, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Login({isAuthenticated}){
+    document.title ='Login';
     // const navigate = useNavigate();
 
-    // const [username, SetUsername] = useState('');
-    // const [password,SetPassword]= useState('');
+    const [username, SetUsername] = useState('');
+    const [password,SetPassword]= useState('');
+
+    const [loading,setLoading] = useState(false);
     function submitForm(){
         
     }
@@ -14,7 +17,7 @@ function Login({isAuthenticated}){
       className="min-h-screen bg-cover bg-center flex items-center justify-center font-sans"
       style={{
         backgroundImage:
-          "url('https://images.unsplash.com/photo-1496715976403-7e36dc43f17b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          "url('/public/background.jpg')",
       }}
     >
       <div className="backdrop-blur-md bg-white/10 border border-white/30 shadow-lg rounded-2xl p-10 w-full max-w-md text-white">
