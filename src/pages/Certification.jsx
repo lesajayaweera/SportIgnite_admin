@@ -23,7 +23,7 @@ const CertificationVerify = () => {
         <main className="p-6">
           
           <h1 className="text-2xl font-bold mt-4 mb-4">Pending Certificates</h1>
-          <div className="flex-wrap">
+          <div className="w-full">
           <PendingVerificationCard certificateImageUrl={certificates} verificationLetter={certificates}  isAvailable={true} ></PendingVerificationCard>
           <PendingVerificationCard   certificateImageUrl={certificates}  isAvailable={true}></PendingVerificationCard>
 

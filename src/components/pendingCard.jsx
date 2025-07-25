@@ -17,10 +17,11 @@ function PendingVerificationCard({
       } w-full bg-white rounded-2xl shadow-md overflow-hidden m-2`}
     >
       <div className={`flex flex-col items-center gap-4 ${isAvailable ? "" : "p-4"}`}>
-        {/* Certificate Section */}
+        <div className="flex">
+          {/* Certificate Section */}
         <div className="flex flex-col items-center justify-center gap-2">
           <h2 className="font-bold text-2xl">Certificates</h2>
-          <div id="certificate" className="flex flex-row  gap-2 justify-center">
+          <div id="certificate" className="flex flex-col w-full gap-2 justify-center">
             {certificateImageUrl.map((item, index) => (
               <img
                 key={index}
@@ -35,7 +36,7 @@ function PendingVerificationCard({
         {/* Verification Letter Section */}
         <div className="flex flex-col items-center justify-center gap-2">
           <h2 className="font-bold text-2xl">Verification Letters</h2>
-          <div id="verification" className="flex flex-row  gap-2 justify-center">
+          <div id="verification" className="flex flex-col gap-2 justify-center">
             {verificationLetter.map((item, index) => (
               <img
                 key={index}
@@ -45,6 +46,7 @@ function PendingVerificationCard({
               />
             ))}
           </div>
+        </div>
         </div>
 
         {/* Title & Status */}
