@@ -1,16 +1,25 @@
-import { useState } from 'react'
-import Login from './pages/Login'
-import Home from './pages/Home'
-import CertificationVerify from './pages/Certification'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link ,Navigate } from 'react-router-dom';
+import Home from './pages/Home';
+import CertificationVerify from './pages/Certification';
+import Login from './pages/Login';
+import './output.css';
 
-import './output.css'
-
-function App() {
-  
-
+function App() {  
+  let isAuthenticated = !!localStorage.getItem("userToken");
   return (
-    <CertificationVerify />
-  )
+    <Router>
+      <Routes>
+        <Route path='/' element={
+          isAuthenticated ?<Home/> : <Navigate to='/login'/>
+          }></Route>
+        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/certificates' element={
+          isAuthenticated ?<CertificationVerify /> : <Navigate to='/login'/>
+          }></Route>
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

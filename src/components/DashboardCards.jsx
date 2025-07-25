@@ -8,7 +8,7 @@ const cards = [
   },
   {
     title: "Certifications to Check",
-    value: "$34,000",
+    value: "4,000",
     color: "bg-red-500",
   },
   

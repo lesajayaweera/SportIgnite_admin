@@ -13,61 +13,61 @@ function PendingVerificationCard({
   return (
     <div
       className={`${
-        isAvailable ? "" : "max-w-sm"
-      } w-full bg-white rounded-2xl shadow-md overflow-hidden m-2`}
+        isAvailable ? "w-full" : "max-w-md"
+      } bg-white rounded-2xl shadow-lg overflow-hidden m-4`}
     >
-      <div className={`flex flex-col items-center gap-4 ${isAvailable ? "" : "p-4"}`}>
-        <div className="flex">
-          {/* Certificate Section */}
-        <div className="flex flex-col items-center justify-center gap-2">
-          <h2 className="font-bold text-2xl">Certificates</h2>
-          <div id="certificate" className="flex flex-col w-full gap-2 justify-center">
+      <div className="flex-col gap-6 p-6">
+        {/* Certificates Section */}
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3 text-center">
+            Certificates
+          </h2>
+          <div className="flex flex-col gap-4">
             {certificateImageUrl.map((item, index) => (
               <img
                 key={index}
                 src={item.url}
-                alt={item.title || `Certificate ${index + 1}`}
-                className="w-full h-48 object-cover rounded-lg"
+                alt={item.title || `Certificate ${index + 1}`}  
+                className="w-full h-48 object-cover rounded-lg shadow hover:scale-105 transition-transform"
               />
             ))}
           </div>
         </div>
 
-        {/* Verification Letter Section */}
-        <div className="flex flex-col items-center justify-center gap-2">
-          <h2 className="font-bold text-2xl">Verification Letters</h2>
-          <div id="verification" className="flex flex-col gap-2 justify-center">
+        {/* Verification Letters Section */}
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3 text-center">
+            Verification Letters
+          </h2>
+          <div className="flex flex-col gap-4">
             {verificationLetter.map((item, index) => (
               <img
                 key={index}
                 src={item.url}
                 alt={item.title || `Verification Letter ${index + 1}`}
-                className="w-full h-48 object-cover rounded-lg"
+                className="w-full h-48 object-cover rounded-lg shadow hover:scale-105 transition-transform"
               />
             ))}
           </div>
         </div>
-        </div>
 
-        {/* Title & Status */}
-        {
-          !isAvailable &&(
-            <div className="p-4 text-center">
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
-          <span className="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">
-            Pending Verification
-          </span>
-        </div>
-          )
-        }
+        {/* Title and Status (Only if not available) */}
+        {!isAvailable && (
+          <div className="text-center">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
+            <span className="inline-block bg-yellow-100 text-yellow-800 text-sm font-medium px-4 py-1 rounded-full">
+              Pending Verification
+            </span>
+          </div>
+        )}
 
-        {/* Action Buttons */}
+        {/* Action Buttons (Only if available) */}
         {isAvailable && (
-          <div className="flex items-center justify-around p-4 w-full">
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+          <div className="flex justify-center gap-4">
+            <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-md transition">
               Approve
             </button>
-            <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+            <button className="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-md transition">
               Disapprove
             </button>
           </div>
