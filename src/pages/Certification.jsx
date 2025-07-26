@@ -1,35 +1,54 @@
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar";
 import Navbar from "../components/Navbar";
 import PendingVerificationCard from "../components/pendingCard";
-
+import { collectionGroup, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "../firebase";
+import { doc } from "firebase/firestore";
 
 
 const CertificationVerify = () => {
-// dummy data
-  const certificates =[
-    {title:'Hellow world',
-    url:'https://images.unsplash.com/photo-1584445584400-1a7cc5de77ae?q=80&w=1960&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-    {title:'Hellow world',
-    url:'https://images.unsplash.com/photo-1584445584400-1a7cc5de77ae?q=80&w=1960&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'}
-  ]
+  const [certificates, setCertificates] = useState([]);
+  const name = "Admin";
+
+  useEffect(() => {
+    const q = query(
+      collectionGroup(db, "certificates"),
+      where("status", "==", "false")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedCertificates = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        docPath: docSnap._key.path.segments.join("/"),
+        ...docSnap.data(),
+      }));
+
+      setCertificates(fetchedCertificates);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <Navbar name={name ? name :'Guest'}/>
+        <Navbar name={name || "Guest"} />
         <main className="p-6">
-          
           <h1 className="text-2xl font-bold mt-4 mb-4">Pending Certificates</h1>
-          <div className="w-full">
-          <PendingVerificationCard certificateImageUrl={certificates} verificationLetter={certificates}  isAvailable={true} ></PendingVerificationCard>
-          <PendingVerificationCard   certificateImageUrl={certificates}  isAvailable={true}></PendingVerificationCard>
-
+          <div className="w-full flex flex-wrap gap-4">
+            {certificates.map((cert, index) => (
+              <PendingVerificationCard
+                key={cert.id || index}
+                title={cert.title}
+                isAvailable={true}
+                docPath={cert.docPath} // ✅ pass path
+                certificateImageUrl={[{ url: cert.certificateImageUrl }]}
+                verificationLetter={[{ url: cert.referenceLetterImageUrl }]}
+              />
+            ))}
           </div>
-
-
         </main>
       </div>
     </div>
