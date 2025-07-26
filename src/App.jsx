@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import Home from './pages/Home';
 import CertificationVerify from './pages/Certification';
 import Login from './pages/Login';
+import NotFound from './pages/NotFound';
+
 import './output.css';
 
 function App() {
@@ -38,20 +41,25 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={
-            isAuthenticated ? <Home onLogout={handleLogout} /> : <Navigate to='/login' />
+            isAuthenticated ? <Home onLogout={handleLogout} /> : <Navigate to="/login" />
           }
         />
         <Route
-          path='/login'
+          path="/login"
           element={<Login onLogin={handleLogin} />}
         />
         <Route
-          path='/certificates'
+          path="/certificates"
           element={
-            isAuthenticated ? <CertificationVerify /> : <Navigate to='/login' />
+            isAuthenticated ? <CertificationVerify /> : <Navigate to="/login" />
           }
+        />
+        {/* Catch-all route for 404 */}
+        <Route
+          path="*"
+          element={<NotFound />}
         />
       </Routes>
     </Router>
