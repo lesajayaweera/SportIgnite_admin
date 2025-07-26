@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { collection, setDoc, deleteDoc } from "firebase/firestore"; // you missed `collection`, `setDoc`, `deleteDoc`
@@ -13,8 +13,15 @@ function PendingVerificationCard({
   isAvailable,
   docPath,
 }) {
+
+
+  const [isApprove, setApprove] = useState(false);
+  const [isDisapprove, setDisapprove] = useState(false);
+
   const handleApprove = async () => {
     try {
+      setApprove(true);
+
       if (!docPath) throw new Error("Missing document path!");
 
       // Extract only the relative Firestore path
@@ -34,13 +41,16 @@ function PendingVerificationCard({
         message: `Your certificate "${title}" has been approved.`,
         timestamp: new Date(),
         type: "approval",
-        isRead:'false',
+        isRead: 'false',
         certificateId,
       });
-
+      setApprove(false);
       console.log("Certificate approved and user notified!");
     } catch (error) {
       console.error("Error approving certificate:", error);
+      setApprove(false);
+
+
     }
   };
 
@@ -63,6 +73,7 @@ function PendingVerificationCard({
   };
 
   const handleDisapprove = async () => {
+    setDisapprove(true);
     try {
       if (!docPath) throw new Error("Missing document path!");
 
@@ -83,7 +94,9 @@ function PendingVerificationCard({
           const fileRef = ref(storage, path);
           await deleteObject(fileRef).catch((e) =>
             console.warn("Failed to delete certificate image:", e.message)
+
           );
+          setDisapprove(false);
         }
       }
 
@@ -94,6 +107,7 @@ function PendingVerificationCard({
           await deleteObject(fileRef).catch((e) =>
             console.warn("Failed to delete verification letter image:", e.message)
           );
+          setDisapprove(false);
         }
       }
 
@@ -107,13 +121,14 @@ function PendingVerificationCard({
         message: `Your certificate "${title}" has been rejected.`,
         timestamp: new Date(),
         type: "rejection",
-        isRead:'false',
+        isRead: 'false',
         certificateId,
       });
-
+      setDisapprove(false);
       console.log("Certificate disapproved and user notified.");
     } catch (error) {
       console.error("Error disapproving certificate:", error);
+      setDisapprove(false);
     }
   };
 
@@ -134,7 +149,7 @@ function PendingVerificationCard({
                   key={index}
                   src={item.url}
                   alt={item.title || `Certificate ${index + 1}`}
-                  className="w-1/2 mx-auto object-cover rounded-lg shadow hover:scale-105 transition-transform"
+                  className={` mx-auto ${isAvailable ? "object-cover w-1/2  " : "object-contain w-24"} rounded-lg shadow hover:scale-105 transition-transform`}
                 />
               ))}
             </div>
@@ -151,12 +166,22 @@ function PendingVerificationCard({
                   key={index}
                   src={item.url}
                   alt={item.title || `Verification Letter ${index + 1}`}
-                  className="w-1/2 mx-auto object-cover rounded-lg shadow hover:scale-105 transition-transform"
+                  className={` mx-auto ${isAvailable ? "object-cover w-1/2  " : "object-contain w-24 "} rounded-lg shadow hover:scale-105 transition-transform`}
                 />
               ))}
             </div>
           </div>
         </div>
+        {
+          !isAvailable && (
+            <div className="p-4 text-center">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
+              <span className="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">
+                Pending Verification
+              </span>
+            </div>
+          )
+        }
 
         {/* Buttons */}
         {isAvailable && (
@@ -165,13 +190,14 @@ function PendingVerificationCard({
               onClick={handleApprove}
               className="bg-green-500 hover:bg-green-600 text-white font-semibold px-5 py-2 rounded-md transition"
             >
-              Approve
+              {isApprove ? 'Processing' : 'Approve'}
             </button>
             <button
               onClick={handleDisapprove}
               className="bg-red-500 hover:bg-red-600 text-white font-semibold px-5 py-2 rounded-md transition"
             >
-              Disapprove
+              {isDisapprove ? 'Processing' : 'Disapprove'}
+
             </button>
           </div>
         )}

@@ -38,18 +38,25 @@ const CertificationVerify = () => {
         <main className="p-6">
           <h1 className="text-2xl font-bold mt-4 mb-4">Pending Certificates</h1>
           <div className="w-full flex flex-wrap gap-4">
-            {certificates.map((cert, index) => (
-              <PendingVerificationCard
-                key={cert.id || index}
-                title={cert.title}
-                isAvailable={true}
-                docPath={cert.docPath} // ✅ pass path
-                certificateImageUrl={[{ url: cert.certificateImageUrl }]}
-                verificationLetter={[{ url: cert.referenceLetterImageUrl }]}
-              />
-            ))}
+            {certificates.length > 0 ? (
+              certificates.map((cert, index) => (
+                <PendingVerificationCard
+                  key={cert.id || index}
+                  title={cert.title}
+                  isAvailable={true}
+                  docPath={cert.docPath}
+                  certificateImageUrl={[{ url: cert.certificateImageUrl }]}
+                  verificationLetter={[{ url: cert.referenceLetterImageUrl }]}
+                />
+              ))
+            ) : (
+              <div className="text-gray-500 text-lg mt-4">
+                There are no certificates to verify.
+              </div>
+            )}
           </div>
         </main>
+
       </div>
     </div>
   );

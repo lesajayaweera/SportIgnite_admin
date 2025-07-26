@@ -3,7 +3,33 @@ import Navbar from "../components/Navbar";
 import DashboardCards from "../components/DashboardCards";
 import PendingVerificationCard from "../components/pendingCard";
 
-function Home({ name }) {
+import React, { useEffect, useState } from "react";
+import { collectionGroup, onSnapshot, query, where } from "firebase/firestore";
+import { db } from "../firebase";
+import { doc } from "firebase/firestore";
+
+function Home() {
+  const [certificates, setCertificates] = useState([]);
+  const name = "Admin";
+
+  useEffect(() => {
+    const q = query(
+      collectionGroup(db, "certificates"),
+      where("status", "==", "false")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedCertificates = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        docPath: docSnap._key.path.segments.join("/"),
+        ...docSnap.data(),
+      }));
+
+      setCertificates(fetchedCertificates);
+    });
+
+    return () => unsubscribe();
+  }, []);
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
       <Sidebar />
@@ -14,9 +40,24 @@ function Home({ name }) {
           <DashboardCards />
           <h1 className="text-2xl font-bold mt-4 mb-4">Pending Certificates</h1>
           <div className="flex gap-2 flex-wrap">
-            <PendingVerificationCard imageUrl="/background.jpg" page={true}/>
-            <PendingVerificationCard imageUrl="/background.jpg"page={false} />
+            {certificates.length > 0 ? (
+              certificates.map((cert, index) => (
+                <PendingVerificationCard
+                  key={cert.id || index}
+                  title={cert.title}
+                  isAvailable={false}
+                  docPath={cert.docPath}
+                  certificateImageUrl={[{ url: cert.certificateImageUrl }]}
+                  verificationLetter={[{ url: cert.referenceLetterImageUrl }]}
+                />
+              ))
+            ) : (
+              <div className="text-gray-500 text-lg mt-4">
+                There are no certificates to verify.
+              </div>
+            )}
           </div>
+
         </main>
       </div>
     </div>
