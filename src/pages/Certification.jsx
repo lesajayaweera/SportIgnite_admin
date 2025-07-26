@@ -32,10 +32,10 @@ const CertificationVerify = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100 font-sans">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <Sidebar pagetitle={'Certificate Verification'}/>
+      <div className="ml-64 flex-1 flex flex-col">
         <Navbar name={name || "Guest"} />
-        <main className="p-6">
+        <main className="p-6 mt-10">
           <h1 className="text-2xl font-bold mt-4 mb-4">Pending Certificates</h1>
           <div className="w-full flex flex-wrap gap-4">
             {certificates.length > 0 ? (

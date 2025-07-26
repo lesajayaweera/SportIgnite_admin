@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = ({name}) => {
   return (
-    <header className="bg-white shadow px-4 py-3 flex justify-between items-center  ">
+    <header className="bg-white shadow px-4 py-3 flex justify-between items-center fixed right-0 left-64 ">
       <div className="font-semibold">Welcome back,{name} 👋</div>
       <div className="flex items-center gap-4">
         <input

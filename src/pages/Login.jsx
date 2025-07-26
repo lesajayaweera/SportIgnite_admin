@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../firebase"; // adjust the path based on your project structure
+import { db } from "../firebase"; // adjust the path if needed
 
-function Login() {
+function Login({ onLogin }) {
   document.title = 'Login';
   const navigate = useNavigate();
 
@@ -15,8 +15,10 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setMessage('');
+    
     try {
-      const usersRef = collection(db, "admin"); // Collection: admin
+      const usersRef = collection(db, "admin"); // Change if needed
       const q = query(usersRef, where("email", "==", email));
       const querySnapshot = await getDocs(q);
 
@@ -30,14 +32,16 @@ function Login() {
       const userData = userDoc.data();
 
       if (userData.password === password) {
-        // Login success - you can store session/token here
+        // Save user session/token
         localStorage.setItem('userToken', 'pass');
         localStorage.setItem('adminEmail', userData.email);
 
         setMessage("Login successful!");
         setLoading(false);
 
-        // Redirect to dashboard
+        // Notify App.js of successful login
+        if (onLogin) onLogin();
+
         navigate("/");
       } else {
         setMessage("Incorrect password.");
@@ -57,9 +61,7 @@ function Login() {
       <div className="backdrop-blur-md bg-white/10 border border-white/30 shadow-lg rounded-2xl p-10 w-full max-w-md text-white">
         <h2 className="text-3xl font-semibold mb-6 text-center">Login</h2>
         {message && (
-          <p className="text-sm text-center mb-4">
-            {message}
-          </p>
+          <p className="text-sm text-center mb-4">{message}</p>
         )}
         <form className="space-y-5" onSubmit={handleLogin}>
           <div>
