@@ -45,7 +45,7 @@ function PendingVerificationCard({
         certificateId,
       });
       setApprove(false);
-      console.log("Certificate approved and user notified!");
+      window.alert("Certificate approved and user notified!");
     } catch (error) {
       console.error("Error approving certificate:", error);
       setApprove(false);
