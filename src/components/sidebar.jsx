@@ -1,12 +1,12 @@
-import { Home, Settings, BarChart2 } from "lucide-react";
+import { Home, Settings, BarChart2, NotebookTextIcon, User, Database } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ pagetitle }) => {
-  const navigate = useNavigate(); // ✅ Hook at the top level
+  const navigate = useNavigate(); 
 
   function handleLogout() {
     localStorage.removeItem('userToken');
-    localStorage.removeItem('adminEmail'); // optional
+    localStorage.removeItem('adminEmail'); 
     navigate('/login');
   }
 
@@ -24,13 +24,29 @@ const Sidebar = ({ pagetitle }) => {
           to="/certificates"
           className="flex items-center gap-2 text-gray-700 hover:text-blue-500 cursor-pointer"
         >
-          <BarChart2 size={18} /> Certification
+          <NotebookTextIcon size={18} /> Certification
         </Link>
         <Link
           to="/settings"
+          className="flex items-center gap-2 text-gray-700 hover:text-blue-500 cursor-pointer">
+          <Settings size={18} /> Settings
+        </Link>
+        <Link
+          to="/analytics"
           className="flex items-center gap-2 text-gray-700 hover:text-blue-500 cursor-pointer"
         >
-          <Settings size={18} /> Settings
+          <BarChart2 size={18} /> Analytics
+        </Link> 
+        <Link to={"/users"}
+          className="flex items-center gap-2 text-gray-700 hover:text-blue-500 cursor-pointer"
+        >
+          <User size={18} /> Users
+        </Link>
+        <Link
+          to="/database"
+          className="flex items-center gap-2 text-gray-700 hover:text-blue-500 cursor-pointer"
+        >
+          <Database size={18} /> Database
         </Link>
 
         <button

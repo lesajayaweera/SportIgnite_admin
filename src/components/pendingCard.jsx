@@ -47,7 +47,7 @@ function PendingVerificationCard({
       setApprove(false);
       window.alert("Certificate approved and user notified!");
     } catch (error) {
-      console.error("Error approving certificate:", error);
+      window.alert("Error approving certificate:", error);
       setApprove(false);
 
 
@@ -125,9 +125,9 @@ function PendingVerificationCard({
         certificateId,
       });
       setDisapprove(false);
-      console.log("Certificate disapproved and user notified.");
+      window.alert("Certificate disapproved and user notified.");
     } catch (error) {
-      console.error("Error disapproving certificate:", error);
+      window.alert("Error disapproving certificate:", error);
       setDisapprove(false);
     }
   };
