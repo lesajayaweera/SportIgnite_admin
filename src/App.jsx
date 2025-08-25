@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import CertificationVerify from './pages/Certification';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
+import Settings from './pages/settings';
 
 import './output.css';
 
@@ -54,6 +55,12 @@ function App() {
           path="/certificates"
           element={
             isAuthenticated ? <CertificationVerify /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            isAuthenticated ? <Settings /> : <Navigate to="/login" />
           }
         />
         {/* Catch-all route for 404 */}
